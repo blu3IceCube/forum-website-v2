@@ -16,32 +16,33 @@ export default function Login() {
             }
         })
     }
-    console.log(loginData);
 
     const { username, password } = loginData
     const navigate = useNavigate()
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
 
         console.log(username, password)
 
         axios.post('http://localhost:8080/login', {
             username, password
-        }).then((respone) => {
+        }, { withCredentials: true, credentials: 'include' }).then((response) => {
             window.alert('Login Successful')
+            console.log('login response', response)
             navigate('/home')
         }).catch((err) => {
             window.alert('Login Failed')
-            console.log(err)
+            console.log('Login failed error', err)
         })
+
     }
 
     return (
         <div className="flex justify-center items-center absolute inset-x-0 inset-y-0 h-screen max-w-screen-sm mx-auto text-neutral-950">
             <div className="container text-center bg-stone-200 h-64 rounded-md px-4 py-1.5 font-mono">
                 <h1 className="text-2xl font-semibold pb-4">Log In</h1>
-                <form className="flex gap-x-2 gap-y-3 justify-center flex-wrap" method="Post" onSubmit={handleLogin} autoComplete="off">
+                <form className="flex gap-x-2 gap-y-3 justify-center flex-wrap" method="POST" onSubmit={handleLogin} autoComplete="off">
                     <label className="basis-full" htmlFor="username">Username: &nbsp;
                         <input
                             className="p-1.5 rounded-md focus:outline-none w-80"

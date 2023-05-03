@@ -2,17 +2,18 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const cookieParser = require('cookie-parser')
 
 require('../db/connection')
 const User = require('../model/userSchema')
+const authenticate = require('../middleware/authenticate')
 
+router.use(cookieParser())
 
 router.get('/', (req, res) => {
     res.send('Router setup properly')
 })
 
-
-// post async approach -----------
 
 router.post('/signup', async (req, res) => {
 
@@ -47,10 +48,9 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body
-    console.log('loginuser', username, 'loginpass', password)
 
     if (!username || !password) {
-        return res.status(400).json({ erroe: 'Please fill required fields.' })
+        return res.status(400).json({ error: 'Please fill required fields.' })
     }
 
     try {
@@ -61,14 +61,16 @@ router.post('/login', async (req, res) => {
             const isMatch = await bcrypt.compare(password, response.password)
 
             if (isMatch) {
-                res.status(200).json({ message: 'Login successful.' })
 
                 const token = await response.generateAuthToken()
 
-                res.cookie('jwtoken', token, {
+                res.cookie('jwtToken', token, {
                     expires: new Date(Date.now() + 2592000000),
-                    httpOnly: true
+                    httpOnly: true,
+                    secure: false
                 })
+
+                res.status(200).json({ message: 'Success', token })
 
             } else {
                 return res.status(400).json({ error: 'Invalid credentials.' })
@@ -78,9 +80,13 @@ router.post('/login', async (req, res) => {
         }
 
     } catch (err) {
-        console.log(err)
+        console.log('router-login-error', err)
     }
 
+})
+
+router.get('/home', authenticate, (req, res) => {
+    res.status(200).send(req.rootUser)
 })
 
 module.exports = router
