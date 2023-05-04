@@ -1,7 +1,41 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { userContext } from "../../App";
 
 export default function Navbar() {
+    const { state, dispatch } = useContext(userContext)
+
+    const AuthRender = () => {
+        if (state) {
+            return (
+                <>
+                    <NavLink
+                        to='/compose'
+                        className={({ isActive }) => isActive ? activeStyle : navStyle}>
+                        <i class="fa-solid fa-pen"></i>
+                    </NavLink>
+                    <NavLink
+                        to='/logout'
+                        className={({ isActive }) => isActive ? activeStyle : navStyle}>Logout
+                    </NavLink>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <NavLink
+                        to='/login'
+                        className={({ isActive }) => isActive ? activeStyle : navStyle}>Login
+                    </NavLink>
+                    <NavLink
+                        to='/signup'
+                        className={({ isActive }) => isActive ? activeStyle : navStyle}>Signup
+                    </NavLink>
+                </>
+            )
+        }
+    }
+
     const activeStyle = 'text-slate-50 hover:text-slate-50'
     const navStyle = 'hover:text-slate-50'
 
@@ -26,14 +60,9 @@ export default function Navbar() {
                     <NavLink
                         to='/user'
                         className={({ isActive }) => isActive ? activeStyle : navStyle}>
-                            <i className="fa-solid fa-user"></i>
-                            </NavLink>
-                    <NavLink
-                        to='/login'
-                        className={({ isActive }) => isActive ? activeStyle : navStyle}>Login</NavLink>
-                    <NavLink
-                        to='/signup'
-                        className={({ isActive }) => isActive ? activeStyle : navStyle}>Signup</NavLink>
+                        <i className="fa-solid fa-user"></i>
+                    </NavLink>
+                    <AuthRender />
                 </div>
             </div>
         </div>

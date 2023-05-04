@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { userContext } from "../../App";
 
 export default function Login() {
+    const { state, dispatch } = useContext(userContext)
+
     const [loginData, setLoginData] = React.useState({
         username: "",
         password: ""
@@ -30,6 +33,7 @@ export default function Login() {
         }, { withCredentials: true, credentials: 'include' }).then((response) => {
             window.alert('Login Successful')
             console.log('login response', response)
+            dispatch({type:'USER', payload:true})
             navigate('/home')
         }).catch((err) => {
             window.alert('Login Failed')

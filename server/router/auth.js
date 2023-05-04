@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 
 require('../db/connection')
 const User = require('../model/userSchema')
+const Post = require('../model/postSchema')
 const authenticate = require('../middleware/authenticate')
 
 router.use(cookieParser())
@@ -87,6 +88,19 @@ router.post('/login', async (req, res) => {
 
 router.get('/home', authenticate, (req, res) => {
     res.status(200).send(req.rootUser)
+})
+
+router.get('/logout', (req, res) => {
+    res.clearCookie('jwtToken')
+    res.status(200).send('User logout')
+})
+
+router.post('/compose', authenticate, async (req, res) => {
+    const { forumName, title, content } = req.body
+    const userName = req.user.username
+    const post = new Post({ forumName, userName, content })
+    await post.save()
+    res.status(201).send('Post creted successfully')
 })
 
 module.exports = router
