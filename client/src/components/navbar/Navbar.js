@@ -1,12 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../App";
 
 export default function Navbar() {
-    const { state, dispatch } = useContext(AuthContext)
+    const [loggedIn, setLoggedIn] = useContext(AuthContext)
 
     const AuthRender = () => {
-        if (state) {
+        if (loggedIn) {
             return (
                 <>
                     <NavLink
@@ -34,6 +34,7 @@ export default function Navbar() {
                 </>
             )
         }
+
     }
 
     const activeStyle = 'text-slate-50 hover:text-slate-50'

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
 
 export default function Logout() {
-    const { state, dispatch } = useContext(AuthContext)
+    const [loggedIn, setLoggedIn] = useContext(AuthContext)
 
     const navigate = useNavigate()
 
@@ -15,7 +15,7 @@ export default function Logout() {
                     const error = new Error(res.error)
                     throw error
                 }
-                dispatch({type:'USER', payload:false})
+                setLoggedIn(false)
                 navigate('/login', { replace: true })
             }).catch((err) => {
                 console.log(err);

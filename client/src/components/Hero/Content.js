@@ -21,16 +21,6 @@ export default function Content() {
                 console.log('Error', error)
             }
         }
-        // axios.get('http://localhost:8080/home', { withCredentials: true })
-        //     .then((res) => {
-        //         if(!res.status === 200) {
-        //             const error = new Error(res.error)
-        //             throw error
-        //         }
-        //     }).catch((err) => {
-        //         navigate('/login')
-        //         console.log('Error', err)
-        //     })
         authHome()
     }, [])
 
@@ -47,5 +37,3 @@ export default function Content() {
         </div>
     )
 }
-
-/*min-h-screen */

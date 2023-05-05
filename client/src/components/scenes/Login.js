@@ -4,7 +4,7 @@ import axios from 'axios';
 import { AuthContext } from "../../App";
 
 export default function Login() {
-    const { state, dispatch } = useContext(AuthContext)
+    const [loggedIn, setLoggedIn] = useContext(AuthContext)
 
     const [loginData, setLoginData] = React.useState({
         username: "",
@@ -33,7 +33,7 @@ export default function Login() {
         }, { withCredentials: true, credentials: 'include' }).then((response) => {
             window.alert('Login Successful')
             console.log('login response', response)
-            dispatch({type:'USER', payload:true})
+            setLoggedIn(true)
             navigate('/home')
         }).catch((err) => {
             window.alert('Login Failed')

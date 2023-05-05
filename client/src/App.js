@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Routes, Route } from 'react-router-dom'
 import Navbar from "./components/navbar/Navbar";
 import Welcome from "./components/scenes/Welcome";
@@ -7,23 +7,28 @@ import Content from "./components/Hero/Content";
 import Login from "./components/scenes/Login"
 import Error from "./components/scenes/Error";
 import Logout from "./components/scenes/Logout";
-import { initialState, authReducer } from "./reducer/useReducer";
 import Compose from "./components/scenes/Compose";
 import Forum from "./components/scenes/Forum";
+import axios from "axios";
 
 export const AuthContext = createContext()
 
 export default function App() {
-  const [state, dispatch] = useReducer(authReducer, initialState)
+  const [loggedIn, setLoggedIn] = useState(false)
 
-  // useEffect(() => {
-
-  // })
+  useEffect(() => {
+    axios.get('http://localhost:8080/home', {withCredentials:true})
+    .then((response) => {
+      if(response.status === 200) {
+        setLoggedIn(true)
+      }
+    })
+  }, [])
 
   return (
     <div className="text-slate-50 min-h-screen bg-neutral-950">
-      <AuthContext.Provider value={{state, dispatch}}>
-        <Navbar />
+      <AuthContext.Provider value={[loggedIn, setLoggedIn]}>
+        <Navbar/>
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<Content />} />

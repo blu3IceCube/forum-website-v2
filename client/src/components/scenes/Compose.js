@@ -18,6 +18,10 @@ export default function Compose() {
         .catch((err) => console.log(err))
     }, [])
 
+    const handleSelect = (e) => {
+        setSelectedValue(e.target.value)
+    }
+
     const handleChange = (e) => {
         setUserPost(prevData => {
             return {
@@ -51,7 +55,7 @@ export default function Compose() {
             <div className="container text-center bg-stone-200 max-h-full rounded-md px-4 pt-1.5 pb-3 font-mono">
                 <h1 className="text-2xl font-semibold pb-4">Compose</h1>
                 <form className="flex flex-col gap-x-2 gap-y-3 justify-center flex-wrap" method="POST" onSubmit={handleSubmit} autoComplete="off">
-                    <select className="p-1.5 rounded-md focus:outline-none w-80" name="forumName" value={selectedValue} onChange={handleChange}>
+                    <select className="p-1.5 rounded-md focus:outline-none w-80" name="forumName" value={selectedValue} onChange={handleSelect}>
                         <option value="">--Select a community--</option>
                         {data.map((item) => {
                             return <option key={item._id} value={item.forumName}>{item.forumName}</option>
@@ -66,7 +70,7 @@ export default function Compose() {
                         value={userPost.title}
                     />
                     <textarea
-                        className="p-1.5 rounded-md focus:outline-none w-full"
+                        className="p-1.5 rounded-md focus:outline-none w-full resize-none"
                         placeholder="Content"
                         name="content"
                         onChange={handleChange}
