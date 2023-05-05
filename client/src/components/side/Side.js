@@ -1,7 +1,22 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Side() {
+    const [forumData, setForumData] = useState([])
+
+    useEffect(() => {
+        async function fetchPosts() {
+            try {
+                const response = await axios.get('http://localhost:8080/c')
+                setForumData(response.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        fetchPosts()
+    }, [])
+
     return (
         <>
             <div className="w-4/6 mx-auto bg-neutral-900 text-slate-500 rounded-md">
@@ -9,20 +24,14 @@ export default function Side() {
                 <div className="h-80 p-3 overflow-hidden border rounded-b-sm">
                     <div className="overflow-y-auto h-full">
                         <ul className="h-full">
-                            <li className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><a href="/explore">Community #1</a></li>
-                            <li className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><a href="/explore">Community #2</a></li>
-                            <li className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><a href="/explore">Community #3</a></li>
-                            <li className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><a href="/explore">Community #4</a></li>
-                            <li className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><a href="/explore">Community #5</a></li>
-                            <li className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><a href="/explore">Community #6</a></li>
-                            <li className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><a href="/explore">Community #7</a></li>
+                            {forumData.map((forum) => (
+                            <li key={forum._id} className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><a href="/explore">{forum.forumName}</a></li>
+                            ))}
                         </ul>
                     </div>
                 </div>
             </div>
-            {/* <div className="w-4/6 mx-auto text-center mt-12 bg-cyan-500 py-3"> */}
-                <Link className="w-4/6 mx-auto text-center mt-12 bg-cyan-500 py-1 hover:scale-105 drop-shadow-lg shadow-2xl" to='/c'>Create a Community</Link>
-            {/* </div> */}
+            <Link className="w-4/6 mx-auto text-center mt-12 bg-cyan-500 py-1 hover:scale-105 drop-shadow-lg shadow-2xl" to='/c'>Create a Community</Link>
         </>
 
     )

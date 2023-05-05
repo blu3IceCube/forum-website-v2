@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,15 @@ export default function Compose() {
         title: "",
         content: ""
     })
+
+    const [data, setData] = useState([])
+    const [selectedValue, setSelectedValue] = useState('');
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/c')
+        .then(response => setData(response.data))
+        .catch((err) => console.log(err))
+    }, [])
 
     const handleChange = (e) => {
         setUserPost(prevData => {
@@ -29,7 +38,6 @@ export default function Compose() {
             }, { withCredentials: true })
 
             if (response) {
-                console.log(response.status)
                 window.alert('Post created.')
                 navigate('/home')
             }
@@ -37,19 +45,18 @@ export default function Compose() {
             window.alert('Failed to create post.')
         }
     }
+
     return (
         <div className="flex justify-center items-center absolute inset-x-0 inset-y-0 h-screen max-w-screen-sm mx-auto text-neutral-950">
             <div className="container text-center bg-stone-200 max-h-full rounded-md px-4 pt-1.5 pb-3 font-mono">
                 <h1 className="text-2xl font-semibold pb-4">Compose</h1>
                 <form className="flex flex-col gap-x-2 gap-y-3 justify-center flex-wrap" method="POST" onSubmit={handleSubmit} autoComplete="off">
-                    <input
-                        className="p-1.5 rounded-md focus:outline-none w-80"
-                        type="text"
-                        placeholder="Community Name"
-                        name="forumName"
-                        onChange={handleChange}
-                        value={userPost.forumName}
-                    />
+                    <select className="p-1.5 rounded-md focus:outline-none w-80" name="forumName" value={selectedValue} onChange={handleChange}>
+                        <option value="">--Select a community--</option>
+                        {data.map((item) => {
+                            return <option key={item._id} value={item.forumName}>{item.forumName}</option>
+                        })}
+                    </select>
                     <input
                         className="p-1.5 rounded-md focus:outline-none w-full"
                         type="text"

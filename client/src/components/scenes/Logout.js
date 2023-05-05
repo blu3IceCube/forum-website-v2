@@ -1,10 +1,10 @@
 import React, { useEffect, useContext } from "react";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-import { userContext } from "../../App";
+import { AuthContext } from "../../App";
 
 export default function Logout() {
-    const { state, dispatch } = useContext(userContext)
+    const { state, dispatch } = useContext(AuthContext)
 
     const navigate = useNavigate()
 

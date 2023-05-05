@@ -98,9 +98,33 @@ router.get('/logout', (req, res) => {
 router.post('/compose', authenticate, async (req, res) => {
     const { forumName, title, content } = req.body
     const userName = req.user.username
-    const post = new Post({ forumName, userName, content })
-    await post.save()
+
+    const response = await Post.findOne({ forumName: forumName })
+
+    response.posts.push({userName: userName, title: title, content: content})
+    await response.save()
     res.status(201).send('Post creted successfully')
 })
+
+router.post('/c', authenticate, async (req, res) => {
+    const { forumName, forumInfo } = req.body
+    const forum = new Post({ forumName, forumInfo })
+    await forum.save()
+    res.status(201).send('Your community page is ready.')
+})
+
+router.get('/c', async (req, res) => {
+    try {
+        const forums = await Post.find()
+        res.send(forums)
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+})
+
+// router.get('/compose', async (req, res) => {
+
+// })
 
 module.exports = router

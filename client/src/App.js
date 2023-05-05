@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import { Routes, Route } from 'react-router-dom'
 import Navbar from "./components/navbar/Navbar";
 import Welcome from "./components/scenes/Welcome";
@@ -7,17 +7,22 @@ import Content from "./components/Hero/Content";
 import Login from "./components/scenes/Login"
 import Error from "./components/scenes/Error";
 import Logout from "./components/scenes/Logout";
-import { reducer, initialState } from "./reducer/useReducer";
+import { initialState, authReducer } from "./reducer/useReducer";
 import Compose from "./components/scenes/Compose";
+import Forum from "./components/scenes/Forum";
 
-export const userContext = createContext()
+export const AuthContext = createContext()
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(authReducer, initialState)
+
+  // useEffect(() => {
+
+  // })
 
   return (
     <div className="text-slate-50 min-h-screen bg-neutral-950">
-      <userContext.Provider value={{state, dispatch}}>
+      <AuthContext.Provider value={{state, dispatch}}>
         <Navbar />
         <Routes>
           <Route path="/" element={<Welcome />} />
@@ -26,9 +31,10 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/compose" element={<Compose/>}/>
+          <Route path="/c" element={<Forum/>}/>
           <Route path="*" element={<Error />} />
         </Routes>
-      </userContext.Provider>
+      </AuthContext.Provider>
     </div>
   )
 }

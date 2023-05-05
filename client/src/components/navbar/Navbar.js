@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { userContext } from "../../App";
+import { AuthContext } from "../../App";
 
 export default function Navbar() {
-    const { state, dispatch } = useContext(userContext)
+    const { state, dispatch } = useContext(AuthContext)
 
     const AuthRender = () => {
         if (state) {
@@ -12,7 +12,7 @@ export default function Navbar() {
                     <NavLink
                         to='/compose'
                         className={({ isActive }) => isActive ? activeStyle : navStyle}>
-                        <i class="fa-solid fa-pen"></i>
+                        <i className="fa-solid fa-pen"></i>
                     </NavLink>
                     <NavLink
                         to='/logout'

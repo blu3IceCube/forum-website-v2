@@ -1,16 +1,37 @@
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 export default function Card() {
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        async function fetchPosts() {
+            try {
+                const response = await axios.get('http://localhost:8080/c')
+                setData(response.data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        fetchPosts()
+    }, [])
 
     return (
         <div className="bg-stone-200 text-neutral-950 rounded-md">
-            <h1 className="bg-neutral-900 text-slate-50 px-4 py-1 text-lg">Community Name</h1>
-            <div className="px-4 py-1.5">
-                <span className="text-slate-500 italic"><a className="hover:underline" href="/">Username</a></span>
-                <p className="text-lg py-1.5 border-b border-neutral-500">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </div>
+            {data.map(({ forumName, posts }, index) => {
+                if (posts.length != 0) {
+                    return (
+                        <>
+                            <h1 key={forumName} className="bg-neutral-900 text-slate-50 px-4 py-1 text-lg">{forumName}</h1>
+                            <div key={index} className="px-4 py-1.5">
+                                <span key={posts.userName} className="text-slate-500 italic"><a className="hover:underline" href="/">{posts.map(({ userName }, index) => userName)}</a></span>
+                                <h1 key={posts.title} className="text-xl font-semibold pt-1">{posts.map(({ title }, index) => title)}</h1>
+                                <p key={posts.content} className="text-lg py-1.5 border-b border-neutral-500">{posts.map(({ content }, index) => content)}</p>
+                            </div >
+                        </>
+                    )
+                }
+            })}
             <div className="px-4 flex gap-x-10 py-1.5 text-cyan-500">
                 <a className="hover:underline" href="/">
                     <i className="fa-sharp fa-solid fa-heart mr-1.5"></i>

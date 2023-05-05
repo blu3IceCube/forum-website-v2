@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { userContext } from "../../App";
+import { AuthContext } from "../../App";
 
 export default function Login() {
-    const { state, dispatch } = useContext(userContext)
+    const { state, dispatch } = useContext(AuthContext)
 
     const [loginData, setLoginData] = React.useState({
         username: "",
