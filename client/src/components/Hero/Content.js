@@ -27,7 +27,7 @@ export default function Content() {
     return (
         <div className="container mt-12 mb-12 w-9/12 ml-auto mr-auto flex font-mono">
             {/* <div className=""> */}
-            <main className="w-3/5 h-full flex flex-col">
+            <main className="w-3/5 h-full">
                 <Main />
             </main>
             <section className="w-2/5 h-full flex flex-col">

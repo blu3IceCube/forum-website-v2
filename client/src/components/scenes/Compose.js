@@ -18,11 +18,9 @@ export default function Compose() {
         .catch((err) => console.log(err))
     }, [])
 
-    const handleSelect = (e) => {
-        setSelectedValue(e.target.value)
-    }
-
     const handleChange = (e) => {
+        console.log('e.target.name', e.target.name)
+        setSelectedValue(e.target.value)
         setUserPost(prevData => {
             return {
                 ...prevData,
@@ -55,10 +53,10 @@ export default function Compose() {
             <div className="container text-center bg-stone-200 max-h-full rounded-md px-4 pt-1.5 pb-3 font-mono">
                 <h1 className="text-2xl font-semibold pb-4">Compose</h1>
                 <form className="flex flex-col gap-x-2 gap-y-3 justify-center flex-wrap" method="POST" onSubmit={handleSubmit} autoComplete="off">
-                    <select className="p-1.5 rounded-md focus:outline-none w-80" name="forumName" value={selectedValue} onChange={handleSelect}>
+                    <select className="p-1.5 rounded-md focus:outline-none w-80" name="forumName" value={selectedValue} onChange={handleChange}>
                         <option value="">--Select a community--</option>
                         {data.map((item) => {
-                            return <option key={item._id} value={item.forumName}>{item.forumName}</option>
+                            return <option name="forumName" key={item._id} value={item.forumName}>{item.forumName}</option>
                         })}
                     </select>
                     <input

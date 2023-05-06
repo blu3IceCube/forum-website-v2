@@ -99,7 +99,11 @@ router.post('/compose', authenticate, async (req, res) => {
     const { forumName, title, content } = req.body
     const userName = req.user.username
 
+    console.log('forumName', forumName)
+
     const response = await Post.findOne({ forumName: forumName })
+
+    console.log(response)
 
     response.posts.push({userName: userName, title: title, content: content})
     await response.save()
