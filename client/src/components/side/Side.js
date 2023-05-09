@@ -25,7 +25,7 @@ export default function Side() {
                     <div className="overflow-y-auto h-full">
                         <ul className="h-full">
                             {forumData.map((forum) => (
-                            <li key={forum._id} className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><a href="/explore">{forum.forumName}</a></li>
+                                <li key={forum._id} className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><span>{forum.forumName}</span></li>
                             ))}
                         </ul>
                     </div>

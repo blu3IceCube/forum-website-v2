@@ -23,14 +23,18 @@ export default function Main() {
             {data.map((items) => {
                 if (items.posts.length != 0) {
                     return (
-                        <div className="mb-8">
-                            <div className="inline-block absolute -left-20">
-                                <img className="w-14 h-16 rounded" src={logo1} alt="Community Profile" />
-                            </div>
-                            <div className="inline-block">
-                                <Card props={items} />
-                            </div>
-                        </div>
+                        items.posts.map((post) => {
+                            return (
+                                <div className="mb-8">
+                                    <div className="inline-block absolute -left-20">
+                                        <img className="w-14 h-16 rounded" src={logo1} alt="Community Profile" />
+                                    </div>
+                                    <div className="inline-block">
+                                        <Card items={items} post={post} />
+                                    </div>
+                                </div>
+                            )
+                        })
                     )
                 }
             })}
@@ -38,12 +42,3 @@ export default function Main() {
         </div>
     )
 }
-
-{/* <div className="relative container w-full block mb-8">
-    <div className="inline-block absolute -left-20">
-        <img className="w-14 h-16 rounded" src={logo1} alt="Community Profile" />
-    </div>
-    <div className="inline-block">
-        <Card />
-    </div>
-</div>  */}

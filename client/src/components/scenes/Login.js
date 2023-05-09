@@ -26,13 +26,10 @@ export default function Login() {
     const handleLogin = async (e) => {
         e.preventDefault()
 
-        console.log(username, password)
-
         axios.post('http://localhost:8080/login', {
             username, password
         }, { withCredentials: true, credentials: 'include' }).then((response) => {
             window.alert('Login Successful')
-            console.log('login response', response)
             setLoggedIn(true)
             navigate('/home')
         }).catch((err) => {
