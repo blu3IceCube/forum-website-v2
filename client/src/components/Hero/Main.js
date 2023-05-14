@@ -1,10 +1,16 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import logo1 from "../../images/chemistry.jpg"
 import Card from "./Card";
 
 export default function Main() {
+    const [searchParams, setSearchParams] = useSearchParams()
     const [data, setData] = useState([])
+    
+    const typeFilter = searchParams.get("filter")
+
+    const displayFilter = typeFilter ? data.filter(char => char.forumName.split(" ").join("_").toLowerCase() === typeFilter) : data
 
     useEffect(() => {
         async function fetchPosts() {
@@ -20,7 +26,7 @@ export default function Main() {
 
     return (
         <div className="relative container w-full block mb-8 flex flex-col">
-            {data.map((items) => {
+            {displayFilter.map((items) => {
                 if (items.posts.length != 0) {
                     return (
                         items.posts.map((post) => {

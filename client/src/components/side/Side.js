@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 export default function Side() {
     const [forumData, setForumData] = useState([])
@@ -24,9 +24,10 @@ export default function Side() {
                 <div className="h-80 p-3 overflow-hidden border rounded-b-sm">
                     <div className="overflow-y-auto h-full">
                         <ul className="h-full">
-                            {forumData.map((forum) => (
-                                <li key={forum._id} className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><span>{forum.forumName}</span></li>
-                            ))}
+                            {forumData.map((forum) => {
+                                const filter = forum.forumName.split(" ").join("_").toLowerCase()
+                                return <li key={forum._id} className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><Link to={`?filter=${filter}`}>{forum.forumName}</Link></li>
+                            })}
                         </ul>
                     </div>
                 </div>
