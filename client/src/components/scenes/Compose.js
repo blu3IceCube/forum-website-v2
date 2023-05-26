@@ -13,7 +13,7 @@ export default function Compose() {
     const [selectedValue, setSelectedValue] = useState('');
 
     useEffect(() => {
-        axios.get('http://localhost:8080/c')
+        axios.get('http://localhost:8080/community')
         .then(response => setData(response.data))
         .catch((err) => console.log(err))
     }, [])

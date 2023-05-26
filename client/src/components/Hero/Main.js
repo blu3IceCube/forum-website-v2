@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import logo1 from "../../images/chemistry.jpg"
 import Card from "./Card";
+import { getCommunity } from "../../api/community";
 
 export default function Main() {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -14,12 +15,8 @@ export default function Main() {
 
     useEffect(() => {
         async function fetchPosts() {
-            try {
-                const response = await axios.get('http://localhost:8080/c')
-                setData(response.data)
-            } catch (error) {
-                console.error(error)
-            }
+            const data = await getCommunity()
+            setData(data)
         }
         fetchPosts()
     }, [])

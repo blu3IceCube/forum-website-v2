@@ -23,7 +23,7 @@ export default function Forum() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post('http://localhost:8080/c', { forumName, forumInfo }, { withCredentials: true })
+            const response = await axios.post('http://localhost:8080/community', { forumName, forumInfo }, { withCredentials: true })
             if (response) {
                 console.log('Community created')
                 window.alert('Community created')

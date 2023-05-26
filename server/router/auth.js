@@ -106,14 +106,14 @@ router.post('/compose', authenticate, async (req, res) => {
     res.status(201).send('Post creted successfully')
 })
 
-router.post('/c', authenticate, async (req, res) => {
+router.post('/community', authenticate, async (req, res) => {
     const { forumName, forumInfo } = req.body
     const forum = new Post({ forumName, forumInfo })
     await forum.save()
     res.status(201).send('Your community page is ready.')
 })
 
-router.get('/c', async (req, res) => {
+router.get('/community', async (req, res) => {
     try {
         const forums = await Post.find()
         res.send(forums)

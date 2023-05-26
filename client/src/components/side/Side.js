@@ -1,18 +1,14 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getCommunity } from "../../api/community";
 
 export default function Side() {
     const [forumData, setForumData] = useState([])
 
     useEffect(() => {
         async function fetchPosts() {
-            try {
-                const response = await axios.get('http://localhost:8080/c')
-                setForumData(response.data)
-            } catch (error) {
-                console.error(error)
-            }
+            const data = await getCommunity()
+            setForumData(data)
         }
         fetchPosts()
     }, [])
@@ -31,6 +27,7 @@ export default function Side() {
                         </ul>
                     </div>
                 </div>
+                <div className="text-center hover:underline hover:text-slate-50 p-2"><Link to={`.`}>Clear filters</Link></div>
             </div>
             <Link className="w-4/6 mx-auto text-center mt-12 bg-cyan-500 py-1 hover:scale-105 drop-shadow-lg shadow-2xl" to='/c'>Create a Community</Link>
         </>
