@@ -116,7 +116,7 @@ router.post('/community', authenticate, async (req, res) => {
 router.get('/community', async (req, res) => {
     try {
         const forums = await Post.find()
-        res.send(forums)
+        res.status(200).send(forums)
     } catch (error) {
         console.error(error);
         res.status(500).send('Server error');

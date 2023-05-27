@@ -1,5 +1,10 @@
 import React, { createContext, useEffect, useState } from "react";
-import { Routes, Route } from 'react-router-dom'
+import {
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route
+} from 'react-router-dom'
 import Welcome from "./components/scenes/Welcome";
 import Signup from "./components/scenes/Signup";
 import Content from "./components/Hero/Content";
@@ -12,6 +17,19 @@ import axios from "axios";
 import Layout from "./components/Layout";
 
 export const AuthContext = createContext()
+
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route element={<Layout />}>
+    <Route path="/" element={<Welcome />} />
+    <Route path="/home" element={<Content />} />
+    <Route path="/signup" element={<Signup />} />
+    <Route path="/login" element={<Login />} />
+    <Route path="/logout" element={<Logout />} />
+    <Route path="/compose" element={<Compose />} />
+    <Route path="/c" element={<Forum />} />
+    <Route path="*" element={<Error />} />
+  </Route>
+))
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -28,18 +46,7 @@ export default function App() {
   return (
     <div className="text-slate-50 min-h-screen bg-neutral-950">
       <AuthContext.Provider value={[loggedIn, setLoggedIn]}>
-        <Routes>
-          <Route element={<Layout/>}>
-            <Route path="/" element={<Welcome />} />
-            <Route path="/home" element={<Content />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/compose" element={<Compose />} />
-            <Route path="/c" element={<Forum />} />
-            <Route path="*" element={<Error />} />
-          </Route>
-        </Routes>
+        <RouterProvider router={router} />
       </AuthContext.Provider>
     </div>
   )

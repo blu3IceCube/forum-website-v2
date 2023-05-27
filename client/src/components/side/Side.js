@@ -4,14 +4,25 @@ import { getCommunity } from "../../api/community";
 
 export default function Side() {
     const [forumData, setForumData] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         async function fetchPosts() {
-            const data = await getCommunity()
-            setForumData(data)
+            setLoading(true)
+            try {
+                const data = await getCommunity()
+                setForumData(data)     
+            } catch (error) {
+                console.log(error)
+            }
+            setLoading(false)
         }
         fetchPosts()
     }, [])
+
+    if (loading) {
+        return <h1 className="text-center text-3xl mt-32">Loading...</h1>
+    }
 
     return (
         <>
