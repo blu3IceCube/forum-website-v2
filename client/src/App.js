@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import Welcome from "./components/scenes/Welcome";
 import Signup from "./components/scenes/Signup";
-import Content from "./components/Hero/Content";
+import Content, { communityLoader as contentLoader, homeLoader as homeData } from "./components/Hero/Content";
 import Login from "./components/scenes/Login"
 import Error from "./components/scenes/Error";
 import Logout from "./components/scenes/Logout";
@@ -15,13 +15,19 @@ import Compose from "./components/scenes/Compose";
 import Forum from "./components/scenes/Forum";
 import axios from "axios";
 import Layout from "./components/Layout";
+import Main, { loader as mainLoader } from "./components/Hero/Main";
 
 export const AuthContext = createContext()
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route element={<Layout />}>
     <Route path="/" element={<Welcome />} />
-    <Route path="/home" element={<Content />} />
+    <Route path="/home"
+      element={<Content />}
+      loader={contentLoader}
+      errorElement={<Error />} />
+    {/* <Route index element={<Main />} loader={mainLoader}/>
+    </Route> */}
     <Route path="/signup" element={<Signup />} />
     <Route path="/login" element={<Login />} />
     <Route path="/logout" element={<Logout />} />

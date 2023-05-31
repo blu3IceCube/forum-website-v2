@@ -8,5 +8,11 @@ export async function getCommunity() {
         throw error
     }
 
-    return response.data
+    return response
+}
+
+export async function getHome() {
+    const response = await axios.get('http://localhost:8080/home', { withCredentials: true })
+
+    console.log('homeError', response);
 }
