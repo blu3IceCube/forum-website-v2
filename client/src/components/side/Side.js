@@ -1,7 +1,29 @@
-import React, { useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getCommunity } from "../../api/community";
 
-export default function Side({props}) {
+export default function Side() {
+    const [forumData, setForumData] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        async function fetchPosts() {
+            setLoading(true)
+            try {
+                const data = await getCommunity()
+                setForumData(data)     
+            } catch (error) {
+                console.log(error)
+            }
+            setLoading(false)
+        }
+        fetchPosts()
+    }, [])
+
+    if (loading) {
+        return <h1 className="text-center text-3xl mt-32">Loading...</h1>
+    }
+
     return (
         <>
             <div className="w-4/6 mx-auto bg-neutral-900 text-slate-500 rounded-md">
@@ -9,7 +31,7 @@ export default function Side({props}) {
                 <div className="h-80 p-3 overflow-hidden border rounded-b-sm">
                     <div className="overflow-y-auto h-full">
                         <ul className="h-full">
-                            {props.data.map((forum) => {
+                            {forumData.map((forum) => {
                                 const filter = forum.forumName.split(" ").join("_").toLowerCase()
                                 return <li key={forum._id} className="p-3 border-b border-neutral-500 hover:underline hover:text-slate-50"><Link to={`?filter=${filter}`}>{forum.forumName}</Link></li>
                             })}

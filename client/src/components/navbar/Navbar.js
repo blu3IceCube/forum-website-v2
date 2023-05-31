@@ -13,7 +13,6 @@ export default function Navbar() {
                         to='/compose'
                         className={({ isActive }) => isActive ? activeStyle : navStyle}>
                         <i className="fa-solid fa-pen"></i>
-                        
                     </NavLink>
                     <NavLink
                         to='/logout'
@@ -53,19 +52,16 @@ export default function Navbar() {
                         to='/home'
                         className={({ isActive }) => isActive ? activeStyle : navStyle}>
                         <i className="fa-solid fa-house"></i>
-                        
                     </NavLink>
                     <NavLink
                         to='/messages'
                         className={({ isActive }) => isActive ? activeStyle : navStyle}>
                         <i className="fa-solid fa-envelope"></i>
-                        
                     </NavLink>
                     <NavLink
                         to='/user'
                         className={({ isActive }) => isActive ? activeStyle : navStyle}>
                         <i className="fa-solid fa-user"></i>
-                        
                     </NavLink>
                     <AuthRender />
                 </div>
